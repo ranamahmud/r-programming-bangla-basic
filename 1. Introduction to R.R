@@ -56,3 +56,16 @@ median(mtcars$mpg)
 sd(mtcars$mpg)
 # correlation
 cor(mtcars)
+
+
+# tasks
+
+# load iris data
+
+# see number of rows
+# see number of columns
+# see column names
+
+# see first 5 rows
+# see last 5 rows
+# see summary statistics
