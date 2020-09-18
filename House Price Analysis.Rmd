@@ -1,0 +1,111 @@
+---
+title: "House Price Analysis"
+author: "Md Rana Mahmud"
+date: "9/4/2020"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(dplyr)
+```
+
+
+
+```{r}
+df <- read.csv("kc_house_data.csv")
+```
+
+```{r}
+summary(df)
+```
+
+```{r}
+# apply family of functions
+# sapply(), lapply(), apply(), tapply(), vapply()
+
+sapply(df, class)
+
+# problematic 
+# date
+head(df$date)
+```
+
+
+```{r}
+glimpse(df)
+```
+ # univaraite plot
+ # continous - histogram
+ # outliar - boxplot
+ # categorical - 1 way table barplot
+```{r}
+# continous price sqft_living sqft_basement
+hist(df$price, main="Distribution of Price")
+# outliar identification
+boxplot(df$price, main= "Boxplot of Price")
+# discrete floors condition bedrooms
+table(df$bedrooms)
+
+# barplot of categorical variable
+bedroom_tbl <- table(df$bedrooms)
+barplot(bedroom_tbl, main = "Frequency Distribuiton of Bedrooms")
+```
+
+# bi-variate analysis
+# scatterplot
+# barplot by group
+```{r}
+plot(df$bedrooms, df$price, main= "Relationship Between Bedrooms and Price")
+# fitting regression line
+fit <- lm(price ~ bedrooms, data = df)
+plot(df$bedrooms, df$price, main= "Relationship Between Bedrooms and Price", xlab = "Number of Bedrooms", ylab = "Price")
+abline(reg=fit)
+```
+
+
+```{r}
+tapply(df$price, df$bedrooms, sd)
+# average house price by number of bedrooms
+avg_price_room <- tapply(df$price, df$bedrooms, mean)
+avg_price_room
+barplot(avg_price_room, main="Average Houes Price by Bedrooms")
+```
+
+
+# correlation analysis
+
+
+```{r}
+#cor(df)
+df_sub <- df %>%
+    select_if(is.numeric)
+
+cor(df_sub)
+```
+
+# correlation plot
+
+```{r}
+library(ggcorrplot)
+corr_res <- cor(df_sub)
+ggcorrplot(corr_res)
+ggcorrplot(corr_res, type="lower",lab=TRUE)
+```
+
+
+```{r}
+head(df$date)
+```
+# working with date and times in R
+```{r}
+library(lubridate)
+```
+```{r}
+df$date_correct <- as_date(df$date)
+class(df$date_correct)
+```
+

@@ -1,0 +1,48 @@
+---
+title: "Exploratory Data Analysis"
+author: "Md Rana Mahmud"
+date: "9/4/2020"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+data("mtcars")
+```
+
+
+```{r}
+plot(mtcars$mpg, mtcars$cyl)
+```
+From the plot we can see there is a negative relationship.
+
+
+```{r}
+# pander
+# apatables
+library(pander)
+library(apaTables)
+```
+
+```{r}
+t.test(mpg~vs, data = mtcars)
+```
+
+
+
+```{r}
+pander(t.test(mpg~vs, data = mtcars))
+```
+
+```{r}
+fit <- lm(mpg ~ cyl,data = mtcars)
+summary(fit)
+```
+
+```{r}
+apa.reg.table(fit)
+```
+

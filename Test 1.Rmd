@@ -1,0 +1,25 @@
+---
+title: "Test file 1"
+author: "Md Rana Mahmud"
+date: "9/5/2020"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(datasets)
+```
+
+```{r}
+head(mtcars)
+```
+
+
+
+```{r}
+
+```
+
