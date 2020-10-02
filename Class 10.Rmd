@@ -1,0 +1,91 @@
+---
+title: "Class 10 Non Parametric Test and Regression Analysis"
+author: "Md Rana Mahmud"
+date: "9/19/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+The one-sample Wilcoxon signed rank test is a non-parametric alternative to one-sample t-test when the data cannot be assumed to be normally distributed. It’s used to determine whether the median of the sample is equal to a known standard value (i.e. theoretical value).
+
+```{r}
+set.seed(1234)
+df <- data.frame(
+  weight = round(rnorm(10, 25, 5), 1)
+)
+df
+# We want to know, if the average weight of the mice differs from 25g (two-tailed test)?
+
+# 5% alpha
+wilcox.test(df$weight, mu = 25)
+```
+
+
+Wilcoxon Rank Sum test' (also called 'Mann-Whitney test'), is a distribution-free alternative to the t-test, and is used to test the hypothesis that the distributions in the two groups have the same median.
+
+```{r}
+## Two-sample test.
+## Hollander & Wolfe (1973), 69f.
+## Permeability constants of the human chorioamnion (a placental
+##  membrane) at term (x) and between 12 to 26 weeks gestational
+##  age (y).  The alternative of interest is greater permeability
+##  of the human chorioamnion for the term pregnancy.
+x <- c(0.80, 0.83, 1.89, 1.04, 1.45, 1.38, 1.91, 1.64, 0.73, 1.46)
+y <- c(1.15, 0.88, 0.90, 0.74, 1.21)
+wilcox.test(x, y, alternative = "g")        # greater
+wilcox.test(x, y, alternative = "greater",
+            exact = FALSE, correct = FALSE) # H&W large sample
+                                            # approximation
+
+```
+```{r}
+## Hollander & Wolfe (1973), 29f.
+## Hamilton depression scale factor measurements in 9 patients with
+##  mixed anxiety and depression, taken at the first (x) and second
+##  (y) visit after initiation of a therapy (administration of a
+##  tranquilizer).
+x <- c(1.83,  0.50,  1.62,  2.48, 1.68, 1.88, 1.55, 3.06, 1.30)
+y <- c(0.878, 0.647, 0.598, 2.05, 1.06, 1.29, 1.06, 3.14, 1.29)
+wilcox.test(x, y, paired = TRUE, alternative = "greater")
+wilcox.test(y - x, alternative = "less")    # The same.
+wilcox.test(y - x, alternative = "less",
+            exact = FALSE, correct = FALSE) # H&W large sample
+                                            # approximation
+```
+
+
+Regression Analysis
+1. linear regression (a) simple, (b) multiple
+2. logistic regression (a) binary , (b) multiple/multinomial logistic regression
+y contionus linear regression
+y categorical x contious/ categorical logistic regression
+y <- x1 + x2 
+```{r}
+# lm()
+
+data(iris)
+y ~ x1 + x2 + x3
+reg_model <- lm(Sepal.Width ~ Sepal.Length, data = iris)
+
+summary(reg_model)
+```
+```{r}
+par(mfrow=c(2,2))
+plot(reg_model)
+```
+
+
+1. Multicollinearity 
+2. Residuals are normally distributed
+3. Homogenity of varaince
+4. High influential obsrevation
+VIF value that exceeds 5 or 10 indicates a problematic amount of collinearity (James et al. 2014).
+```{r}
+library(car)
+fit <- lm(prestige ~ income + education + type, data=Duncan)
+vif(fit)
+```
+

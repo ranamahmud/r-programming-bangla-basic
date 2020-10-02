@@ -254,8 +254,9 @@ data("mtcars")
 null hypothesis : cylindar and am are independent
 
 ```{r}
+chisq.test(mtcars$cyl, mtcars$disp)
 chisq.test(mtcars$cyl, mtcars$am)
-chisq.test(mtcars$cyl, mtcars$am)
+fisher.test(mtcars$cyl, mtcars$am)
 ```
 
 ```{r}
@@ -311,7 +312,7 @@ head(df4)
 ```{r}
 # filter
 df5 <- mtcars %>%
-    filter(mpg >= 25)
+    filter(mpg >= 25, disp >= 80)
 df5
 
 mtcars %>%
